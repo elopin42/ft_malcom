@@ -1,0 +1,12 @@
+socket() → créer la socket raw ARP
+setsockopt() → configurer la socket si nécessaire
+if_nametoindex() → récupérer l'index de l'interface
+recvfrom() → attendre l'ARP Request
+sendto() → envoyer l'ARP Reply
+htons() / ntohs() → gérer l'ordre des octets
+inet_pton() → convertir les IP
+getuid() → vérifier que tu es root
+close() → fermer la socket
+sigaction() / signal() → gérer SIGINT
+printf() → afficher les informations
+strerror() → afficher les erreurs
