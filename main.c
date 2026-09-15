@@ -1,4 +1,4 @@
-#incude "libft/libft.h"
+#include "libft/libft.h"
 #include <stdio.h>          // printf, perror
 #include <unistd.h>          
 #include <fcntl.h>
@@ -9,6 +9,12 @@
 #include <linux/if_packet.h> // AF_PACKET
 #include <linux/if_ether.h>  // ETH_P_ARP
 #include <ifaddrs.h>
+
+struct ethheader {
+    unsigned char       dsta[6];
+    unsigned char       srca[6];
+    uint16_t            type;
+};
 
 int main(int ac, char **av){
   
@@ -35,15 +41,44 @@ int main(int ac, char **av){
   }
 
 
-  unsigned char buffer[4096]; // Buffer for incoming packets
-  while (1) {
-      ssize_t bytes_recv = recvfrom(sockfd, buffer, sizeof(buffer), 0, NULL, NULL);
-      if (bytes_recv < 0) {
-          perror("recvfrom failed");
-          exit(EXIT_FAILURE);
-      }
-      printf("Received %zd bytes\n", bytes_recv);
-      // Parse buffer here...
+  unsigned char buffer[4096]; 
+
+  ssize_t bytes_recv = recvfrom(sockfd, buffer, sizeof(buffer), 0, NULL, NULL);
+  if (bytes_recv < 0) {
+      perror("recvfrom failed\n");
+      exit(EXIT_FAILURE);
   }
 
+  struct ethheader *eth = (struct ethheader*)buffer;
+  if (bytes_recv <= 0 || bytes_recv < sizeof(struct ethheader))
+    return (printf("error bytes receiv\n"), 1);
+
+  printf("Received %zd bytes\n", bytes_recv);
+  printf("Received msg --> %s\n", buffer);
+
+  char dst[18];
+  char src[18];
+  for (int i = 0; i < 6; i++) {
+      sprintf(dst + i * 3, "%02x:", eth->dsta[i]);
+      sprintf(src + i * 3, "%02x:", eth->srca[i]);
+  }
+  dst[17] = '\0';
+  src[17] = '\0';
+  printf("dst: %s src: %s ", dst, src);
+
+  switch (ntohs(eth->type)) {
+    case 0x0800:
+        printf("IPv4\n");
+        break;
+    case 0x0806:
+        printf("ARP\n");
+        break;
+    case 0x86DD:
+        printf("IPv6\n");
+        break;
+    default:
+        printf("unknown\n");
+        break;
+  }
+  return 0;
 }
