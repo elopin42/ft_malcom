@@ -10,3 +10,4 @@ close() → fermer la socket
 sigaction() / signal() → gérer SIGINT
 printf() → afficher les informations
 strerror() → afficher les erreurs
+https://linuxvox.com/blog/arp-request-and-reply-using-c-socket-programming/#arp-request-vs-reply

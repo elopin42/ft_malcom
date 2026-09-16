@@ -65,6 +65,8 @@ int main(int ac, char **av){
   dst[17] = '\0';
   src[17] = '\0';
   printf("dst: %s src: %s ", dst, src);
+  if (!ft_strcmp(dst, data[0]))
+    sendto
 
   switch (ntohs(eth->type)) {
     case 0x0800:
