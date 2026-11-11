@@ -29,17 +29,17 @@ int check_arg(char *data[3]){
   if (ft_strlen(data[1]) != 17)
     return(write(2, "size adress mac invalid\n", 24), 0);
   for(int i = 0; data[1][i]; i++){
-    if (!ft_isdigit(data[1][i]) || !ft_isalpha(data[1][i]))
+    if (!ft_isdigit(data[1][i]) && !ft_isalpha(data[1][i]))// a changer on doit accepter que entre a et z et A / Z
       if (i % 3 != 2 || data[1][i] != ':')
-        return(write(2, "adress mac invalid\n", 19), 0);
+        return(write(2, "source adress mac invalid\n", 26), 0);
   };
 
   if (ft_strlen(data[3]) != 17)
     return(write(2, "size adress mac invalid\n", 24), 0);
   for(int i = 0; data[3][i]; i++){
-    if (!ft_isdigit(data[3][i]) || !ft_isalpha(data[3][i]))
+    if (!ft_isdigit(data[3][i]) && !ft_isalpha(data[3][i]))
       if (i % 3 != 2 || data[3][i] != ':')
-        return(write(2, "adress mac invalid\n", 19), 0);
+        return(write(2, "targer adress mac invalid\n", 26), 0);
   };
   return 1;
 };

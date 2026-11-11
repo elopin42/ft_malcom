@@ -1,4 +1,4 @@
-NAME		= ft_malcom
+NAME		= ft_malcolm
 
 CC			= cc
 CFLAGS		= -Wall -Wextra -Werror
