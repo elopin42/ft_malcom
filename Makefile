@@ -24,7 +24,7 @@ $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
-$(LIBFT): FORCE
+$(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR)
 
 clean:

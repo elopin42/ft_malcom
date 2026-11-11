@@ -1,6 +1,6 @@
 #include "libft/libft.h"
 #include <stdio.h>          // printf, perror
-#include <unistd.h>          
+#include <unistd.h>
 #include <fcntl.h>
 #include <stdlib.h>         // exit, EXIT_FAILURE
 #include <unistd.h>         // write
@@ -50,7 +50,7 @@ int main(int ac, char **av){
   }
 
   struct ethheader *eth = (struct ethheader*)buffer;
-  if (bytes_recv <= 0 || bytes_recv < sizeof(struct ethheader))
+  if (bytes_recv <= 0 || bytes_recv < (long long) sizeof(struct ethheader))
     return (printf("error bytes receiv\n"), 1);
 
   printf("Received %zd bytes\n", bytes_recv);
@@ -65,8 +65,8 @@ int main(int ac, char **av){
   dst[17] = '\0';
   src[17] = '\0';
   printf("dst: %s src: %s ", dst, src);
-  if (!ft_strcmp(dst, data[0]))
-    sendto
+  // if (!strcmp(dst, data[0]))
+  //   sendto
 
   switch (ntohs(eth->type)) {
     case 0x0800:
