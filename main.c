@@ -16,6 +16,34 @@ struct ethheader {
     uint16_t            type;
 };
 
+int check_arg(char *data[3]){
+  char *buf[4000];
+
+  //ip check
+  if (inet_pton(AF_INET, data[0], &buf) <= 0)
+    return(write(2, "source ip invalid\n", 18), 0);
+  if (inet_pton(AF_INET, data[2], &buf) <= 0)
+    return(write(2, "target ip invalid\n", 18), 0);
+  
+  //mac check
+  if (ft_strlen(data[1]) != 17)
+    return(write(2, "size adress mac invalid\n", 24), 0);
+  for(int i = 0; data[1][i]; i++){
+    if (!ft_isdigit(data[1][i]) || !ft_isalpha(data[1][i]))
+      if (i % 3 != 2 || data[1][i] != ':')
+        return(write(2, "adress mac invalid\n", 19), 0);
+  };
+
+  if (ft_strlen(data[3]) != 17)
+    return(write(2, "size adress mac invalid\n", 24), 0);
+  for(int i = 0; data[3][i]; i++){
+    if (!ft_isdigit(data[3][i]) || !ft_isalpha(data[3][i]))
+      if (i % 3 != 2 || data[3][i] != ':')
+        return(write(2, "adress mac invalid\n", 19), 0);
+  };
+  return 1;
+};
+
 int main(int ac, char **av){
   
   if (getuid() != 0){
@@ -40,8 +68,10 @@ int main(int ac, char **av){
       return(1);
   }
 
+  if (!check_arg(data))
+    return(1);
 
-  unsigned char buffer[4096]; 
+  unsigned char buffer[4096];  
 
   ssize_t bytes_recv = recvfrom(sockfd, buffer, sizeof(buffer), 0, NULL, NULL);
   if (bytes_recv < 0) {
